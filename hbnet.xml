@@ -1,0 +1,47 @@
+<root
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="mnt/d/Jupyterlab/xml/RosettaScripts.xsd"/>
+<ROSETTASCRIPTS>
+   <SCOREFXNS>
+        <ScoreFunction name='sfxn1' weights='ref2015_cart'>
+           
+        </ScoreFunction>
+   </SCOREFXNS>
+   <RESIDUE_SELECTORS>
+        <Chain name='chain_1' chains='1'/>
+        <Chain name='chain_2' chains='2'/>
+        <Chain name='chain_3' chains='3'/>
+        <Chain name='chain_4' chains='4'/>
+        <ResidueName name='his' residue_name3='HIS'
+    </RESIDUE_SELECTORS>
+   <TASKOPERATIONS>
+        <KeepSequenceSymmetry name='keep_seq_sym' setting='true'/>
+        <InitializeFromCommandline name='ifc'/> 
+        <IncludeCurrent name='ic'/>
+        <NoRepackDisulfides name='nrd'/>
+        <ReadResfile name='rr' filename='resfile'/> 
+
+   </TASKOPERATIONS>
+   <FILTERS>
+   
+   </FILTERS>
+   <MOVERS>
+      <HBNet name="hbnet_mover" scorefxn='sfxn1' hb_threshold="-0.5" min_network_size="1" start_selector='his' design_residues='HN' find_only_native_networks='true' max_unsat_Hpol="1" write_network_pdbs="1" monte_carlo='true' task_operations='keep_seq_sym' />
+      <MultiplePoseMover name="MPM_design" max_input_poses="100">
+         <ROSETTASCRIPTS>
+                PASTE YOUR ENTIRE CURRENT DESIGN XML HERE
+                # only use _cst scorefxn during design to make sure the constraints automatically turned on by HBNet are respected
+                # residue selector and taskop to ensure network residues aren't designed away
+                # residue selector will automatically detect all HBNet residues
+                <ResiduePDBInfoHasLabel name="hbnet_residues" property="HBNet" />
+                <OperateOnResidueSubset name="hbnet_task" selector="hbnet_residues">
+                    <RestrictToRepackingRLT/> # can also use PreventRepackingRLT here, but I find that repack only works best, because it allows some wiggle room, and the csts applied automatically by h-bond keep the h-bonds in place
+                </OperateOnResidueSubset>
+         </ROSETTASCRIPTS>
+       </MultiplePoseMover>
+<PROTOCOLS>
+  <Add mover_name="hbnet_mover"/>
+  <Add mover_name="MPM_design"/>
+  <Add filter_name='filter'/>
+</PROTOCOLS>
+</ROSETTASCRIPTS>
