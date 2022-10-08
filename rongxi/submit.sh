@@ -7,7 +7,7 @@
 
 #conda activate pytorch
 
-folder_with_pdbs="../inputs/rongxi/"
+folder_with_pdbs="../inputs/rongxi/outputs"
 
 output_dir="../outputs/rongxi"
 if [ ! -d $output_dir ]
@@ -20,8 +20,8 @@ path_for_parsed_chains=$output_dir"/parsed_pdbs.jsonl"
 path_for_assigned_chains=$output_dir"/assigned_pdbs.jsonl"
 path_for_fixed_positions=$output_dir"/fixed_pdbs.jsonl"
 path_for_tied_positions=$output_dir"/tied_pdbs.jsonl"
-chains_to_design="A C E" ##设计的链
-fixed_positions="10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42"
+chains_to_design="A B C D E F G H I" ##设计的链
+fixed_positions="10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42,10 11 21 22 24 25 26 27 31 42"
 ##AC链固定不设计的位置
 tied_positions="1 2 3 4 5 6 7 8, 1 2 3 4 5 6 7 8" #two list must match in length; residue 1 in chain A and C will be sampled togther;
 ##AC链保持对称的位置
